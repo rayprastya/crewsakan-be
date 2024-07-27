@@ -3,49 +3,38 @@
 --changeset crewsakan:1
 CREATE TABLE Merchants (
     id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    lat double precision,
-    lng double precision
+    name VARCHAR(255) NOT NULL,
+    lat DOUBLE PRECISION,
+    lng DOUBLE PRECISION
 );
 
 CREATE TABLE Menus (
     id SERIAL PRIMARY KEY,
-    merchant_id int REFERENCES Merchants(id),
-    name varchar(255) NOT NULL,
-    description varchar(255),
-    price double precision
+    merchant_id INT REFERENCES Merchants(id),
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    price DOUBLE PRECISION
 );
 
 CREATE TABLE Orders (
     id SERIAL PRIMARY KEY,
-    menu_id int REFERENCES Menus(id),
-    user_id varchar(255),
-    optional varchar(255),
-    lat double precision,
-    lng double precision
+    menu_id INT REFERENCES Menus(id),
+    user_id VARCHAR(255),
+    optional VARCHAR(255),
+    lat DOUBLE PRECISION,
+    lng DOUBLE PRECISION,
+    order_datetime TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE Wishlists (
     id SERIAL PRIMARY KEY,
-    merchant_id int REFERENCES Merchants(id),
-    name varchar(255) NOT NULL,
-    recipes varchar(255),
-    steps varchar(255)
+    merchant_id INT REFERENCES Merchants(id),
+    name VARCHAR(255) NOT NULL,
+    recipes TEXT,
+    steps TEXT
 );
 
 --changeset crewsakan:2
-ALTER TABLE Wishlists
-ALTER COLUMN recipes TYPE TEXT,
-ALTER COLUMN steps TYPE TEXT;
-
---changeset crewsakan:3
-Insert into Merchants (name, lat, lng) values ('Warung mak ijah', 12.3, 3.21);
-
---changeset crewsakan:4
-ALTER TABLE Orders
-ADD COLUMN order_datetime TIMESTAMP DEFAULT NOW();
-
---changeset crewsakan:5
 INSERT INTO merchants (id, name, lat, lng) VALUES (1, 'Warung mak ijah', 12.3, 3.21);
 INSERT INTO merchants (id, name, lat, lng) VALUES (2, 'Merchant 1', 12.34, 56.78);
 INSERT INTO merchants (id, name, lat, lng) VALUES (3, 'Merchant 2', 13.45, 57.89);
@@ -58,9 +47,6 @@ INSERT INTO merchants (id, name, lat, lng) VALUES (9, 'Merchant 8', 19.01, 63.45
 INSERT INTO merchants (id, name, lat, lng) VALUES (10, 'Merchant 9', 20.12, 64.56);
 INSERT INTO merchants (id, name, lat, lng) VALUES (11, 'Merchant 10', 21.23, 65.67);
 INSERT INTO merchants (id, name, lat, lng) VALUES (12, 'Amazing Merchant', 12.345678, 98.765432);
-
---changeset crewsakan:6
--- Insert dummy data into the Menus table
 
 INSERT INTO menus (id, merchant_id, name, description, price) VALUES (1, 1, 'Beef Burger', 'A juicy beef burger with lettuce, tomato, and cheese.', 8.99);
 INSERT INTO menus (id, merchant_id, name, description, price) VALUES (2, 2, 'Chicken Sandwich', 'A grilled chicken sandwich with mayonnaise and pickles.', 7.49);
@@ -75,7 +61,6 @@ INSERT INTO menus (id, merchant_id, name, description, price) VALUES (10, 10, 'P
 INSERT INTO menus (id, merchant_id, name, description, price) VALUES (11, 1, 'Nasi Goreng', 'Nasi goreng spesial', 15000);
 INSERT INTO menus (id, merchant_id, name, description, price) VALUES (12, 1, 'Nasi Goreng', 'Nasi goreng spesial', 15000);
 INSERT INTO menus (id, merchant_id, name, description, price) VALUES (13, 2, 'Nasi Goreng', 'Nasi goreng spesial', 15000);
-
 
 INSERT INTO orders (id, menu_id, user_id, optional, lat, lng, order_datetime) VALUES (2, 4, 'user_324', 'spicy', 12.695959, 19.628821, '2024-07-22 23:18:28.13877');
 INSERT INTO orders (id, menu_id, user_id, optional, lat, lng, order_datetime) VALUES (3, 1, 'user_342', 'spicy', 11.127538, 16.926263, '2024-07-22 22:18:28.13877');
@@ -131,5 +116,4 @@ INSERT INTO orders (id, menu_id, user_id, optional, lat, lng, order_datetime) VA
 INSERT INTO orders (id, menu_id, user_id, optional, lat, lng, order_datetime) VALUES (53, 1, '1', 'no chili', 1, 1, '2024-07-28 00:45:04.405618');
 INSERT INTO orders (id, menu_id, user_id, optional, lat, lng, order_datetime) VALUES (54, 1, '1', 'no chili', 1, 1, '2024-07-28 02:56:53.837487');
 
-
-INSERT INTO wishlists (id, merchant_id, name, recipes, steps) VALUES (5, 1, 'memek goreng', 'memek', 'digoreng');
+INSERT INTO wishlists (id, merchant_id, name, recipes, steps) VALUES (5, 1, 'nasi goreng', 'nasi', 'digoreng');
