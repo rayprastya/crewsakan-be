@@ -6,7 +6,7 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	app.Post("/menu", controllers.PostMenu)
-	app.Post("/user", controllers.CreateUser)
-	app.Get("/menu/:userID", controllers.GetMenusByUserID)
+	app.Post("/menus", controllers.PostMenu)
+	app.Post("/users", controllers.CreateUser)
+	app.Get("/menus/:userID", controllers.GetMenusByUserID)
 }
