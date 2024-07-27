@@ -33,4 +33,6 @@ func SetupRoutes(app *fiber.App) {
 	app.Post("/orders", controllers.PostOrder)
 	app.Post("/wishlists", controllers.PostWishlist)
 	app.Get("/wishlists/:merchant_id", controllers.GetWishlistByMerchantID)
+	app.Delete("/wishlists/:id", controllers.DeleteWishlistByID)
+	app.Delete("/menus/:id", controllers.DeleteMenuByID)
 }
