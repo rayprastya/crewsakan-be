@@ -7,6 +7,11 @@ import (
 
 func SetupRoutes(app *fiber.App) {
 	app.Post("/menus", controllers.PostMenu)
-	app.Post("/users", controllers.CreateUser)
-	app.Get("/menus/:userID", controllers.GetMenusByUserID)
+	app.Get("/menus/:merchant_id", controllers.GetMenusByMerchantID)
+	app.Post("/merchants", controllers.CreateMerchant)
+	app.Get("/merchants/:id", controllers.GetMerchantByID)
+	app.Post("/login", controllers.LoginMerchant)
+	app.Post("/orders", controllers.PostOrder)
+	app.Post("/wishlists", controllers.PostWishlist)
+	app.Get("/wishlists/:merchant_id", controllers.GetWishlistByMerchantID)
 }

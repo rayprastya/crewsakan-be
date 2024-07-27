@@ -23,10 +23,10 @@ func PostMenu(c *fiber.Ctx) error {
 	return c.JSON(menu)
 }
 
-func GetMenusByUserID(c *fiber.Ctx) error {
-	userID := c.Params("userID")
+func GetMenusByMerchantID(c *fiber.Ctx) error {
+	merchantID := c.Params("merchant_id")
 	var menus []models.Menu
-	result := db.GetDB().Where("user_id = ?", userID).Find(&menus)
+	result := db.GetDB().Where("merchant_id = ?", merchantID).Find(&menus)
 	if result.Error != nil {
 		log.Printf("Error fetching menus: %v", result.Error)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
