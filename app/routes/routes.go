@@ -6,6 +6,7 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
-	app.Post("/summary", controllers.GetSummary)
-	app.Get("/topics", controllers.GetTopics)
+	app.Post("/menu", controllers.PostMenu)
+	app.Post("/user", controllers.CreateUser)
+	app.Get("/menu/:userID", controllers.GetMenusByUserID)
 }

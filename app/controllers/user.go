@@ -8,15 +8,17 @@ import (
 	"github.com/rayprastya/boost-daily/app/models"
 )
 
-func GetTopics(c *fiber.Ctx) error {
-	var records []models.Topic
-
-	result := db.GetDB().Find(&records)
+func CreateUser(c *fiber.Ctx) error {
+	var user models.User
+	if err := c.BodyParser(&user); err != nil {
+		return err
+	}
+	result := db.GetDB().Create(&user)
 	if result.Error != nil {
-		log.Printf("Error fetching topics: %v", result.Error)
+		log.Printf("Error creating user: %v", result.Error)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Error fetching topics",
+			"error": "Error creating user",
 		})
 	}
-	return c.JSON(records)
+	return c.JSON(user)
 }
