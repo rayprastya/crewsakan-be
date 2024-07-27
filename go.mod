@@ -1,4 +1,4 @@
-module github.com/rayprastya/boost-daily
+module github.com/rayprastya/crewsakan-be
 
 go 1.20
 

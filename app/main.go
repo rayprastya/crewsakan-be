@@ -8,8 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
-	"github.com/rayprastya/boost-daily/app/db"
-	"github.com/rayprastya/boost-daily/app/routes"
+	"github.com/rayprastya/crewsakan-be/app/db"
+	"github.com/rayprastya/crewsakan-be/app/routes"
 )
 
 func init() {

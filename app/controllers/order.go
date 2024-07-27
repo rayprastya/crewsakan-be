@@ -4,8 +4,8 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/rayprastya/boost-daily/app/db"
-	"github.com/rayprastya/boost-daily/app/models"
+	"github.com/rayprastya/crewsakan-be/app/db"
+	"github.com/rayprastya/crewsakan-be/app/models"
 )
 
 func PostOrder(c *fiber.Ctx) error {
