@@ -146,12 +146,24 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 
 			fmt.Println("merchant", menu_list)
 
+			var latDiff float64 = 0.045
+
+			var merchant_data models.Merchant
+			if err := db.GetDB().
+				Where("id = ?", merchantID).Find(&merchant_data).Error; err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": "Merchant not found",
+				})
+			}
+
 			// TODO: ambil jarak +- 5km dari merchant
 
 			var orders []models.Order
 			if err := db.GetDB().
 				Preload("Menu").
 				Where("order_datetime BETWEEN NOW() - INTERVAL '5 DAYS' AND NOW()").
+				Where("lat BETWEEN ? AND ?", merchant_data.Lat-latDiff, merchant_data.Lat+latDiff).
+				Where("lng BETWEEN ? AND ?", merchant_data.Lng-latDiff, merchant_data.Lng+latDiff).
 				Find(&orders).Error; err != nil {
 				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 					"error": "Error fetching orders",
