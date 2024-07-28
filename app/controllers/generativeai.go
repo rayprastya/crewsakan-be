@@ -46,7 +46,7 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 		var err error
 
 		if command == "GetListMenu" {
-			content = "I want you to recommend me a similar menu, " + jsonData["content"].(string) + "give me the list of the menu name only in json with recommendation as the only key"
+			content = "I want you to recommend me a similar menu of " + jsonData["content"].(string) + ". Provide the list of the menu name, difficulty of implementation, and approximate time to cook only in JSON format with \"recommendation\", \"difficulty\", and \"time\" as the keys, and ensure they are in double quotes. The format should be [{\"recommendation\": \"data\", \"difficulty\": \"data\", \"time\": \"data\"}]"
 			respContent, err = GenerateText(client, content)
 			if err != nil {
 				return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
@@ -56,14 +56,18 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 			}
 
 			type Recipe struct {
-				Recommendation []string `json:"recommendation"`
+				Recommendation string `json:"recommendation"`
+				Difficulty     string `json:"difficulty"`
+				Time           string `json:"time"`
 			}
 
-			var data Recipe
+			var data []Recipe
+
+			fmt.Println("respContent", respContent)
 			if err := json.Unmarshal([]byte(respContent), &data); err != nil {
 				return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 					"statusCode": http.StatusInternalServerError,
-					"summary":    "Failed to parse response",
+					"summary":    err, //"Failed to parse response",
 				})
 			}
 
@@ -181,7 +185,7 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 				userPreference += orders[i].Menu.Name + " preference: " + orders[i].Optional
 			}
 
-			content = "this is list of most buyed food in nearby market " + userPreference + " give me top 3 the list of recommended food based on that list but exclude the same recommendation as " + merchantFood + ". i want the response in json with recommendation as the only key"
+			content := "this is list of most bought food in nearby market " + userPreference + ". Give me the top 3 recommended foods based on that list but exclude the same recommendation as " + merchantFood + ". Provide the list of the menu name, difficulty of implementation, and approximate time to cook only in JSON format with \"recommendation\", \"difficulty\", and \"time\" as the keys, and ensure they are in double quotes. The format should be [{\"recommendation\": \"data\", \"difficulty\": \"data\", \"time\": \"data\"}]"
 			respContent, err = GenerateText(client, content)
 			if err != nil {
 				return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
@@ -191,19 +195,20 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 			}
 
 			type Recipe struct {
-				Recommendation []string `json:"recommendation"`
+				Recommendation string `json:"recommendation"`
+				Difficulty     string `json:"difficulty"`
+				Time           string `json:"time"`
 			}
 
-			var data Recipe
+			var data []Recipe
+
+			fmt.Println("respContent", respContent)
 			if err := json.Unmarshal([]byte(respContent), &data); err != nil {
 				return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 					"statusCode": http.StatusInternalServerError,
-					"summary":    "Failed to parse response",
+					"summary":    err, //"Failed to parse response",
 				})
 			}
-
-			fmt.Println("data", data)
-			fmt.Println("respContent", respContent)
 
 			return c.JSON(fiber.Map{
 				"statusCode": http.StatusOK,
