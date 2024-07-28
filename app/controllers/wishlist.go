@@ -36,3 +36,17 @@ func GetWishlistByMerchantID(c *fiber.Ctx) error {
 	}
 	return c.JSON(wishlists)
 }
+
+func DeleteWishlistByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	result := db.GetDB().Delete(&models.Wishlist{}, id)
+	if result.Error != nil {
+		log.Printf("Error deleting wishlist: %v", result.Error)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Error deleting wishlist",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "Wishlist deleted successfully",
+	})
+}

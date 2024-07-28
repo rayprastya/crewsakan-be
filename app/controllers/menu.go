@@ -35,3 +35,16 @@ func GetMenusByMerchantID(c *fiber.Ctx) error {
 	}
 	return c.JSON(menus)
 }
+
+func DeleteMenuByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	var menu models.Menu
+	result := db.GetDB().Where("id = ?", id).Delete(&menu)
+	if result.Error != nil {
+		log.Printf("Error deleting menu: %v", result.Error)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Error deleting menu",
+		})
+	}
+	return c.JSON(menu)
+}
