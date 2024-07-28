@@ -51,7 +51,7 @@ func GenerativeAI(client *openai.Client, command string) func(c *fiber.Ctx) erro
 			if err != nil {
 				return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 					"statusCode": http.StatusInternalServerError,
-					"summary":    "Something went wrong...",
+					"summary":    err, //"Something went wrong...",
 				})
 			}
 
